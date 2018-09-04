@@ -122,32 +122,11 @@ if (doMFVB)
     B.q.lambda2sq = (1/2*sum(sapply(E.q.recip.omegasq, function(x) 1/x)) + delta2)
 	E.q.lambda2sq = A.q.lambda2sq / B.q.lambda2sq 
 	
-	# log(p;y)
-	# Increment
-	logpy1 = -N/2*log(2*pi) - 1/2*t(E.q.h) %*% E.q.Sigma.h.inverse %*% E.q.h 
-	logpy2 =  1/2*t(E.q.h - E.q.recip.sigsq * solve( E.q.recip.sigsq * WTW + E.q.Sigma.h.inverse + cofactor*diag(P)) %*% Cov.q.h %*% t(W) %*% (Y - X %*% E.q.beta)) %*% ( E.q.recip.sigsq * WTW + E.q.Sigma.h.inverse + cofactor*diag(P)) %*% (E.q.h - E.q.recip.sigsq * solve( E.q.recip.sigsq * WTW + E.q.Sigma.h.inverse + cofactor*diag(P)) %*% Cov.q.h %*% t(W) %*% (Y - X %*% E.q.beta))
-	logpy3 = P/2*log(2*pi) + log(det(solve(E.q.recip.sigsq*XTX))^(1/2))
-	logpy4 = 1/2*E.q.recip.sigsq * t(E.q.beta - solve(XTX) %*% t(X) %*% (Y - W %*% E.q.h)) %*% XTX %*% (E.q.beta - solve(XTX) %*% t(X) %*% (Y - W %*% E.q.h)) # this equals zero? 
-	logpy5 = a * log(gamma) - log(gamma(a)) + log(N/2 + a) - (N/2 + 1)*log(  (t(Y - X %*% E.q.beta - W %*% E.q.h) %*% (Y - X %*% E.q.beta - W %*% E.q.h) )/2 + gamma)
-	logpy6 = N*T/2 + T/2*log(pi) - N*sum(log(E.q.recip.tausq))
-	logpy7 = -E.q.lambda1sq/2 * sum(1/E.q.recip.tausq) + E.q.lambda1sq/2 * sum( (E.q.recip.tausq - sqrt( E.q.lambda1sq / (t(list.h[[g]]) %*% list.G[[g]] %*% list.h[[g]]) ))^2 / ( sqrt( E.q.lambda1sq / (t(list.h[[g]]) %*% list.G[[g]] %*% list.h[[g]]) ) * E.q.recip.tausq) )
-	logpy8 = (T-1)/2 * log( E.q.lambda2sq/2) + (T-1)/2*log(pi) - sum(E.q.recip.omegasq)/2
-	logpy9 = E.q.lambda2sq/2 *sum(1/E.q.recip.omegasq) + E.q.lambda2sq/2 * sum( (E.q.recip.omegasq - sqrt( E.q.lambda2sq / ( sum((list.h[[g+1]] - list.h[[g]])^2)) ))^2 / (sqrt( E.q.lambda2sq / ( sum((list.h[[g+1]] - list.h[[g]])^2)) ) * E.q.recip.omegasq) )
-	logpy10 = r2 * log(delta2)- log(gamma(r2)) + log(gamma(T - 1 + r2)) 
-	logpy11 = -(T-1 + r2)*log(sum((1/E.q.recip.omegasq)/2) + delta2) - (T-1)*log(E.q.lambda2sq)
-	logpy12 = sum((1/E.q.recip.omegasq)/2)*E.q.lambda2sq + r1*log(delta1) - log(gamma(r1)) 
-	logpy13 = -(T*(N+1)/2 + r1)*log( sum( (1/E.q.recip.tausq)/2 ) + delta1) - T*(N+1)/2 * log(E.q.lambda1sq)
-	logpy14 = sum( (1/E.q.recip.tausq)/2 ) * E.q.lambda1sq
-	
-	logpy = logpy1 + logpy2 + logpy3 + logpy4 + logpy5 + logpy6 + logpy7 + logpy8 + logpy9 + logpy10 + logpy11 + logpy12 + logpy13 + logpy14
-	
-	print(c(itnum, logpy))
-	logpyvec[itnum+1] = logpy
-	if (abs(logpy - logpyvec[itnum]) < 10e-8) break
-	
    }
 
   proc.time() - ptm
 }
+
+
 
 
